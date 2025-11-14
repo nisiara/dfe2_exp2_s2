@@ -9,13 +9,26 @@ const PatientDetailPage = ({patientList}) => {
   return (
     <section>
       <PageTitle title='Detalle de Paciente'/>
-      <h1 className="text-xl bold mb-2">{PATIENT.nombrePaciente}</h1>
-      <ul className="flex gap-3">
-        <li className="uppercase text-xs">número paciente: {PATIENT.numeroPaciente}</li>
-        <li className="uppercase text-xs">edad: {PATIENT.edad}</li>
-        <li className="uppercase text-xs">tipo atención: {PATIENT.atenciones[0].tipoAtencion}</li>
-        <li className="uppercase text-xs">especialidad: {PATIENT.atenciones[0].especialidad}</li>
-      </ul>
+      <h1 className="text-2xl font-bold mb-5 text-slate-500">{PATIENT.nombrePaciente}</h1>
+      <aside className="grid grid-cols-12 gap-4">
+         <div className="py-4 col-span-12 md:col-span-6 text-slate-500 flex flex-col border b-color-slate-400">
+          <span className="uppercase text-xs">número paciente</span>
+          <b className="text-2xl capitalize">{PATIENT.numeroPaciente}</b>
+        </div>
+         <div className="py-4 col-span-12 md:col-span-6 text-slate-500 flex flex-col border b-color-slate-400">
+          <span className="uppercase text-xs">edad</span>
+          <b className="text-2xl capitalize">{PATIENT.edad}</b>
+        </div>
+        <div className="py-4 col-span-12 md:col-span-6 text-slate-500 flex flex-col border b-color-slate-400">
+          <span className="uppercase text-xs">Tipo atención</span>
+          <b className="text-2xl capitalize">{PATIENT.atenciones[0].tipoAtencion}</b>
+        </div>
+         <div className="py-4 col-span-12 md:col-span-6 text-slate-500 flex flex-col border b-color-slate-400">
+          <span className="uppercase text-xs">especialidad</span>
+          <b className="text-2xl capitalize">{PATIENT.atenciones[0].especialidad}</b>
+        </div>
+        
+      </aside>
     </section>
   );
 }

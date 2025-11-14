@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { PageTitle } from "../components/common/Common";
-const PatientsPage = ({patientList}) => {
+import Loading from "../components/loading/Loading";
+const PatientsPage = ({patientList, loading}) => {
 
   const tableStyles = {
     tableContainer: 'border border-slate-200 rounded-md',
@@ -12,37 +13,45 @@ const PatientsPage = ({patientList}) => {
   }
 
   console.log('dataList', patientList)
+  console.log('loading', loading)
 
   return ( 
     <section>
       <PageTitle title='Lista de Pacientes'/>
-      <div className={tableStyles.tableContainer}>
-        <table className={tableStyles.table}>
-          <thead className={tableStyles.thead}>
-            <tr>
-              <th className={tableStyles.theadCell}>Número Paciente</th>
-              <th className={tableStyles.theadCell}>Nombre Paciente</th>
-              <th className={tableStyles.theadCell}>Edad</th>
-              <th className={tableStyles.theadCell}>Fecha Consulta</th>
-              <th className={tableStyles.theadCell}>Médico</th>
-              <th className={tableStyles.theadCell}></th>
-            </tr>
-          </thead>
-          <tbody className={tableStyles.tbody}>
-            {patientList.map( patient => (
-              <tr key={patient.numeroPaciente}>
-                <td className={tableStyles.cell}>{patient.numeroPaciente}</td>
-                <td className={tableStyles.cell}>{patient.nombrePaciente}</td>
-                <td className={tableStyles.cell}>{patient.edad}</td>
-                <td className={tableStyles.cell}>{patient.atenciones[0].fecha}</td>
-                <td className={tableStyles.cell}>{patient.atenciones[0].nombreMedico}</td>
-                <td className={tableStyles.cell}><Link to={`/patients/${patient.numeroPaciente.toLowerCase()}`} className="text-xs underline">Ver Paciente</Link></td>
-              </tr>
-            ))}
-            
-          </tbody>
-        </table>
-      </div>
+      {
+        loading 
+          ? <p className="text-sm underline text-center text-slate-500">Cargando lista pacientes</p> 
+          : (
+            <div className={tableStyles.tableContainer}>
+              <table className={tableStyles.table}>
+                <thead className={tableStyles.thead}>
+                  <tr>
+                    <th className={tableStyles.theadCell}>Número Paciente</th>
+                    <th className={tableStyles.theadCell}>Nombre Paciente</th>
+                    <th className={tableStyles.theadCell}>Edad</th>
+                    <th className={tableStyles.theadCell}>Fecha Consulta</th>
+                    <th className={tableStyles.theadCell}>Médico</th>
+                    <th className={tableStyles.theadCell}></th>
+                  </tr>
+                </thead>
+                <tbody className={tableStyles.tbody}>
+                  {(patientList || []).map( patient => (
+                    <tr key={patient.numeroPaciente}>
+                      <td className={tableStyles.cell}>{patient.numeroPaciente}</td>
+                      <td className={tableStyles.cell}>{patient.nombrePaciente}</td>
+                      <td className={tableStyles.cell}>{patient.edad}</td>
+                      <td className={tableStyles.cell}>{patient.atenciones[0].fecha}</td>
+                      <td className={tableStyles.cell}>{patient.atenciones[0].nombreMedico}</td>
+                      <td className={tableStyles.cell}><Link to={`/patients/${patient.numeroPaciente.toLowerCase()}`} className="text-xs underline">Ver Paciente</Link></td>
+                    </tr>
+                  ))}
+                  
+                </tbody>
+              </table>
+            </div>
+          )
+      }
+      
     </section>
   )
 };

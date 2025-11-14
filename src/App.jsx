@@ -7,8 +7,10 @@ import Footer from './layout/Footer'
 const App = () => {
 
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
   
   useEffect(() => {
+    setLoading(true)
     fetch('/api/patients')
     .then( response => {
       if(!response.ok)
@@ -18,10 +20,12 @@ const App = () => {
     })
     .then( info => {
       setData(info)
-     
+      setLoading(false)
+      
     })
     .catch(error => {
       console.error(error.message)
+      setLoading(false)
     })
 
   }, [])
@@ -30,7 +34,7 @@ const App = () => {
   return (
     <>
       <Header/>
-      <AppRoutes patientList={data} />
+      <AppRoutes patientList={data} loading={loading} />
       <Footer/>
     </>
   )
