@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { PageTitle } from "../components/common/Common";
-import Loading from "../components/loading/Loading";
-const PatientsPage = ({patientList, loading}) => {
+
+const PatientsPage = ({patientList, loading, error}) => {
 
   const tableStyles = {
     tableContainer: 'border border-slate-200 rounded-md',
@@ -12,8 +12,18 @@ const PatientsPage = ({patientList, loading}) => {
     cell: 'border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400 text-xs'
   }
 
-  console.log('dataList', patientList)
-  console.log('loading', loading)
+
+  if (error) {
+    return (
+      <section>
+        <PageTitle title='Lista de Pacientes'/>
+        <div className="text-center text-red-500 p-4">
+          <p>Error al cargar la lista de pacientes</p>
+          <p className="text-sm">{error.message}</p>
+        </div>
+      </section>
+    );
+  }
 
   return ( 
     <section>
@@ -29,8 +39,8 @@ const PatientsPage = ({patientList, loading}) => {
                     <th className={tableStyles.theadCell}>Número Paciente</th>
                     <th className={tableStyles.theadCell}>Nombre Paciente</th>
                     <th className={tableStyles.theadCell}>Edad</th>
-                    <th className={tableStyles.theadCell}>Fecha Consulta</th>
-                    <th className={tableStyles.theadCell}>Médico</th>
+                    {/* <th className={tableStyles.theadCell}>Fecha Consulta</th>
+                    <th className={tableStyles.theadCell}>Médico</th> */}
                     <th className={tableStyles.theadCell}></th>
                   </tr>
                 </thead>
@@ -40,9 +50,9 @@ const PatientsPage = ({patientList, loading}) => {
                       <td className={tableStyles.cell}>{patient.numeroPaciente}</td>
                       <td className={tableStyles.cell}>{patient.nombrePaciente}</td>
                       <td className={tableStyles.cell}>{patient.edad}</td>
-                      <td className={tableStyles.cell}>{patient.atenciones[0].fecha}</td>
-                      <td className={tableStyles.cell}>{patient.atenciones[0].nombreMedico}</td>
-                      <td className={tableStyles.cell}><Link to={`/patients/${patient.numeroPaciente.toLowerCase()}`} className="text-xs underline">Ver Paciente</Link></td>
+                      {/* <td className={tableStyles.cell}>{patient.atenciones[0].fecha}</td>
+                      <td className={tableStyles.cell}>{patient.atenciones[0].nombreMedico}</td> */}
+                      <td className={tableStyles.cell}><Link to={`/patients/${patient.numeroPaciente}`} className="text-xs underline">Ver Paciente</Link></td>
                     </tr>
                   ))}
                   

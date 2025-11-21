@@ -8,13 +8,13 @@ const PatientDetailPage = React.lazy( () => import("../pages/PatientDetailPage")
 const AboutUsPage = React.lazy( () => import("../pages/AboutUsPage"))
 
 
-const AppRoutes = ({patientList, loading}) => {
+const AppRoutes = ({patientList, loading, error}) => {
   return ( 
     <Suspense fallback={<Loading />} >
       <Routes>
         <Route path="/" element={<HomePage/>} />
-        <Route path="/patients" element={<PatientsPage patientList={patientList} loading={loading}/>} />
-        <Route path="/patients/:id" element={<PatientDetailPage patientList={patientList}/>} />
+        <Route path="/patients" element={<PatientsPage patientList={patientList} loading={loading} error={error}/>} />
+        <Route path="/patients/:id" element={<PatientDetailPage patientList={patientList} />} />
         <Route path="/about-us" element={<AboutUsPage />} />
       </Routes>
     </Suspense>

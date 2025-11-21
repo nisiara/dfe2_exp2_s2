@@ -1,4 +1,4 @@
-import { http, HttpResponse, delay } from "msw";
+import { HttpResponse, delay, graphql} from "msw";
 
 const pacientes = [
   {
@@ -311,11 +311,38 @@ const pacientes = [
   },
 ];
 
+
 export const handlers = [
-  http.get("/api/patients", async (req) => {
+  graphql.query('ObtenerPacientes', async () => {
+    await delay(5000)
+    return HttpResponse.json({data: {pacientes}})
+
+  }),
+
+  graphql.query('ObtenerPacientePorID', async ({ variables }) => {
+    await delay(3000);
+    const numeroPaciente = variables?.numeroPaciente.toUpperCase()
+
+    const paciente = pacientes.find(p => p.numeroPaciente.toUpperCase() === numeroPaciente);
+    
+    if (!paciente) {
+      return HttpResponse.json({
+        errors: [
+          {
+            message: `Paciente número: ${numeroPaciente}`,
+            extensions: { code: 'PACIENTE_NO_ENCONTRADO' }
+          }
+        ]
+      });
+    }
+
+    return HttpResponse.json({ data: { paciente } });
+  }),
+
+  /* http.get("/api/patients", async (req) => {
     await delay(2000) 
     console.log('req', req)
     return HttpResponse.json(pacientes)
 
-  })
+  }) */
 ]
